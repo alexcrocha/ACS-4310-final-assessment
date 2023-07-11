@@ -44,5 +44,24 @@ d3.csv('./data/2019.csv').then(csvData => {
     .attr('height', d => height - yScale(d.Score))
     .attr('fill', 'steelblue');
 
+  chart.append('text')
+    .attr('x', -(height / 2))
+    .attr('y', -30)
+    .attr('transform', 'rotate(-90)')
+    .attr('text-anchor', 'middle')
+    .text('Score');
+
+  chart.append('text')
+    .attr('x', width / 2)
+    .attr('y', -10)
+    .attr('text-anchor', 'middle')
+    .text('Top 10 Happiest Countries in 2019');
+
+  chart.append('text')
+    .attr('x', width / 2)
+    .attr('y', height + 40)
+    .attr('text-anchor', 'middle')
+    .text('Country');
+
 });
 
