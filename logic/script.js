@@ -33,6 +33,30 @@ d3.csv('./data/2019.csv').then(csvData => {
   chart.append('g')
     .call(d3.axisLeft(yScale));
 
+  const tooltip = d3.select('body')
+    .append('div')
+    .style('position', 'absolute')
+    .style('visibility', 'hidden')
+    .style('background-color', 'rgba(0, 0, 0, 0.75)')
+    .style('color', 'white')
+    .style('padding', '8px')
+    .style('border-radius', '4px')
+    .style('font', '12px sans-serif');
+
+  const mouseover = function (event, d) {
+    tooltip.style("visibility", "visible");
+    tooltip.html(`<strong>${d["Country or region"]}</strong><br/>Score: ${d.Score}`);
+  }
+
+  const mousemove = function (event, d) {
+    tooltip.style("top", (event.pageY - 10) + "px")
+      .style("left", (event.pageX + 10) + "px");
+  }
+
+  const mouseleave = function (event, d) {
+    tooltip.style("visibility", "hidden");
+  }
+
   chart.selectAll()
     .data(top10)
     .enter()
@@ -42,7 +66,10 @@ d3.csv('./data/2019.csv').then(csvData => {
     .attr('y', d => yScale(d.Score))
     .attr('width', xScale.bandwidth())
     .attr('height', d => height - yScale(d.Score))
-    .attr('fill', 'steelblue');
+    .attr('fill', 'steelblue')
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave);
 
   chart.append('text')
     .attr('x', -(height / 2))
