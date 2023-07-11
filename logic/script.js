@@ -63,5 +63,10 @@ d3.csv('./data/2019.csv').then(csvData => {
     .attr('text-anchor', 'middle')
     .text('Country');
 
+  const colour = d3.scaleOrdinal(d3.schemeCategory10)
+    .domain(top10.map(d => d["Country or region"]));
+
+  chart.selectAll(".bar")
+    .attr("fill", d => colour(d["Country or region"]));
 });
 
